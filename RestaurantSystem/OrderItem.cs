@@ -13,6 +13,7 @@ namespace RestaurantSystem
         private int _quantity;
         private decimal _unitPrice;
 
+        // for serialization
         public OrderItem() { }
 
         public OrderItem(int quantity, decimal unitPrice)
@@ -45,6 +46,7 @@ namespace RestaurantSystem
             }
         }
 
+        //derived attribute
         public decimal LineTotal
         {
             get => _quantity * _unitPrice;
@@ -87,6 +89,11 @@ namespace RestaurantSystem
                     _extent.Clear();
                 }
             }
+        }
+
+        public static void ClearExtent()
+        {
+            _extent.Clear();
         }
     }
 }
