@@ -20,7 +20,7 @@ namespace RestaurantSystem
 
         
 
-        /
+        
         public Reservation()
         {
         }
@@ -100,13 +100,14 @@ namespace RestaurantSystem
                     throw new ArgumentException("Phone number must be a positive number.");
                 }
 
-                
-                if (value.Length != 9)  // has to be 9 digits
-                {
-                    throw new ArgumentException("Phone number too short or too long");
-                }
 
-                _phoneNumber = value;
+                string digits = value.ToString();
+
+                if (digits.Length != 9)
+                {
+                    throw new ArgumentException("Phone number must have exactly 9 digits.");
+                }
+                _phoneNumber = value;    
             }
         }
 
