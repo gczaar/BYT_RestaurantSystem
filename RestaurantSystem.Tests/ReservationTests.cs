@@ -52,7 +52,7 @@ namespace RestaurantSystem_Tests
             var r = new Reservation(
                 customerName: "Anna",
                 peopleCount: 3,
-                phoneNumber: 12345,
+                phoneNumber: 333444555,
                 reservationTime: FutureTime(),
                 specialRequests: ""     // empty
             );
