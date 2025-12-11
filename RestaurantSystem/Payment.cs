@@ -152,7 +152,7 @@ namespace RestaurantSystem
                 var serializer = new XmlSerializer(typeof(List<Payment>));
                 try
                 {
-                    _extent = (List<Payment>)serializer.Deserialize(reader);
+                    _extent = (List<Payment>)serializer.Deserialize(reader)!;
                 }
                 catch (Exception)
                 {
