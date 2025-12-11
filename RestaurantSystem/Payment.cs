@@ -38,7 +38,7 @@ namespace RestaurantSystem
         {
             get => _paymentId;
             set
-            {
+            { // exception in case of empty payment ID
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Payment ID cannot be empty.");
                 _paymentId = value;
