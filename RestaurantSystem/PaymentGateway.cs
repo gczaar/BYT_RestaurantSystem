@@ -5,7 +5,7 @@ namespace RestaurantSystem
     public class PaymentGateway
     {
 
-        private string _gatewayName;
+        private string _gatewayName = null!;
 
 
         public PaymentGateway(string gatewayName)
