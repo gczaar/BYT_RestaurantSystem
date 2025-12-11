@@ -28,7 +28,7 @@ namespace RestaurantSystem
         {
             get => _quantity;
             set
-            {
+            { // exception in case of the empty order
                 if (value <= 0)
                     throw new ArgumentException("Quantity must be greater than zero.");
                 _quantity = value;

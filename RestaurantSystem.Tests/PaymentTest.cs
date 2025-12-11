@@ -17,6 +17,7 @@ namespace RestaurantSystem.Tests
 
         [Test]
         public void NoAssociatedPaymentGateway() // testing in case of error in associating the payment gateway
+        // Payment attributes(PaymentID, Amount, Payment method, PaymentGateway)
         {
             Assert.That(() => new Payment("123", 50.00m, "CreditCard", null!),
                 Throws.ArgumentNullException);
