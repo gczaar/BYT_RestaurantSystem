@@ -18,12 +18,12 @@ namespace RestaurantSystem
 
         // Reflex association (Staff <- > Staff)
         // manager: 0..1, subordinates: 0..*
-        // XmlIgnore prevents circular reference issues in XmlSerializer
         [XmlIgnore]
         private Staff? _manager;
 
         [XmlIgnore]
         private readonly HashSet<Staff> _subordinates = new HashSet<Staff>();
+
 
         public Staff() { }
 

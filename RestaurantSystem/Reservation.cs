@@ -18,6 +18,11 @@ namespace RestaurantSystem
         private DateTime _reservationTime;    // complex attribute
         private string _specialRequests;      // optional
 
+        // qualified association: Reservation -> Table (by tableId)
+        [XmlIgnore]
+        private readonly Dictionary<int, Table> _assignedTables = new Dictionary<int, Table>();
+
+
         
 
         
@@ -161,7 +166,41 @@ namespace RestaurantSystem
             }
         }
 
+        // qualified association: table => reservation
         
+        // assigns table to reservation
+        public void assignTable(Table table)
+        {
+            if (table == null)
+                throw new ArgumentNullException(nameof(table), "Table cannot be null.");
+
+            if (_assignedTables.ContainsKey(table.TableId))
+                throw new InvalidOperationException($"Table with ID {table.TableId} is already assigned to this reservation.");
+
+            _assignedTables.Add(table.TableId, table);
+        }
+
+        //unassigns table from reservation
+        public void unassignTable(int tableId)
+        {
+            if (!_assignedTables.ContainsKey(tableId))
+                throw new InvalidOperationException($"Table with ID {tableId} is not assigned to this reservation.");
+
+            _assignedTables.Remove(tableId);
+        }
+
+        
+        public Table? getTableById(int tableId)
+        {
+            _assignedTables.TryGetValue(tableId, out var table);
+            return table;
+        }
+
+        /// Returns all assigned tables (read-only).
+        public IReadOnlyDictionary<int, Table> AssignedTables => _assignedTables;
+
+
+
 
         private static void AddReservation(Reservation reservation)
         {
@@ -178,7 +217,10 @@ namespace RestaurantSystem
             return _extent.AsReadOnly();
         }
 
-        
+        public static void ClearExtent()
+        {
+            _extent.Clear();
+        }
 
         public static void SaveExtent(string filePath = "reservations.xml")
         {
