@@ -13,6 +13,67 @@ namespace RestaurantSystem
         private int _quantity;
         private decimal _unitPrice;
 
+        [XmlIgnore]
+        private Order? _order;
+
+        [XmlIgnore]
+        public bool HasOrder => _order != null;
+
+        [XmlIgnore]
+        public Order Order => _order ?? throw new InvalidOperationException("OrderItem is not associated with any Order.");
+
+        // Basic association to MenuItem
+        [XmlIgnore]
+        private MenuItem? _menuItem;
+
+        [XmlIgnore]
+        public bool HasMenuItem => _menuItem != null;
+
+        [XmlIgnore]
+        public MenuItem MenuItem => _menuItem ?? throw new InvalidOperationException("OrderItem is not associated with any MenuItem.");
+
+        internal void SetOrderInternal(Order order)
+        {
+            if (order == null) throw new ArgumentNullException(nameof(order));
+
+            if (_order != null && !ReferenceEquals(_order, order))
+                throw new InvalidOperationException("OrderItem cannot be associated with multiple Orders (composition).");
+
+            _order = order;
+        }
+
+        internal void ClearOrderInternal(Order order)
+        {
+            if (order == null) throw new ArgumentNullException(nameof(order));
+            if (_order == null) return;
+
+            if (!ReferenceEquals(_order, order))
+                throw new InvalidOperationException("Inconsistent association: Order mismatch.");
+
+            _order = null;
+        }
+
+        internal void SetMenuItemInternal(MenuItem menuItem)
+        {
+            if (menuItem == null) throw new ArgumentNullException(nameof(menuItem));
+
+            if (_menuItem != null && !ReferenceEquals(_menuItem, menuItem))
+                throw new InvalidOperationException("OrderItem cannot reference multiple MenuItems.");
+
+            _menuItem = menuItem;
+        }
+
+        internal void ClearMenuItemInternal(MenuItem menuItem)
+        {
+            if (menuItem == null) throw new ArgumentNullException(nameof(menuItem));
+            if (_menuItem == null) return;
+
+            if (!ReferenceEquals(_menuItem, menuItem))
+                throw new InvalidOperationException("Inconsistent association: MenuItem mismatch.");
+
+            _menuItem = null;
+        }
+
         // for serialization
         public OrderItem() { }
 
@@ -20,7 +81,7 @@ namespace RestaurantSystem
         {
             Quantity = quantity;
             UnitPrice = unitPrice;
-            
+
             AddOrderItem(this);
         }
 
